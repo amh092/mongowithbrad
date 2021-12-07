@@ -85,7 +85,7 @@ router.post('/', [
         (err, token) => {
           if (err) throw err;
           res.json({
-            token
+            email,token,password,name
           })
         }
       );
