@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/layouts/Navbar';
 import Landing from './components/layouts/Landing';
@@ -13,7 +13,18 @@ import store from './store'
 //import alert 
 import Alert from './components/layouts/Alert'
  // /**downgrade to react dom npm i react-router-dom@5.3.0
-const App = () => (
+ import {loadUser} from './actions/auth'
+import setAuthToken from './utils/setAuthToken';
+
+ if (localStorage.token){
+   setAuthToken(localStorage.token)
+ }
+const App = () => {
+ 
+  useEffect(()=>{
+    store.dispatch(loadUser())
+  },[])
+  return(
   <Provider store={store}>
   <Router>
     <Fragment>
@@ -31,5 +42,5 @@ const App = () => (
     </Fragment>
   </Router>
   </Provider>
-);
+)};
 export default App;

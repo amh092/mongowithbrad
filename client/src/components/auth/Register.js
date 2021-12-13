@@ -5,10 +5,10 @@ import React,{Fragment , useState} from 'react'
 import {connect} from 'react-redux'
 import {setAlert} from '../../actions/alert'
 import {register} from '../../actions/auth';
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
- const Register = ({setAlert , register}) => {
+ const Register = ({setAlert , register,isAuthenticated}) => {
      /**here will be the state for registering new users  */
      const [formData,setFormData] = useState({
          /** default values initial state  */
@@ -45,6 +45,10 @@ edit the name because I use that name  as a key. >>>>>>
 
                 } 
         }
+        // redirect 
+       if(isAuthenticated === true) {
+        return <Redirect to="/dashboard/"/>
+      }
     return (
         <Fragment>
         <h1 className="large text-primary">Sign Up</h1>
@@ -100,6 +104,10 @@ edit the name because I use that name  as a key. >>>>>>
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+  
 }
-
-export default connect(null,{setAlert,register})(Register)
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+export default connect(mapStateToProps,{setAlert,register})(Register)

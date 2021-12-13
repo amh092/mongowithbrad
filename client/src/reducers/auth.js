@@ -5,7 +5,12 @@
 
 import {
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    LOGOUT
   } from '../actions/types';
   // creating the initial state fro authentication 
   const initialState = {
@@ -20,7 +25,17 @@ import {
     const {type,payload} = action;
 
     switch(type){
+      
+      case USER_LOADED:
+        return{
+          ...state,
+          // user : payload will bring user data 
+          user: payload,
+          isAuthenticated: true,
+          loading:false
+        }
       case REGISTER_SUCCESS:
+      case LOGIN_SUCCESS:
         localStorage.setItem('token',payload.token);
         return{
           ...state,
@@ -30,11 +45,14 @@ import {
         }
         
          case REGISTER_FAIL:
+         case AUTH_ERROR:  
+         case LOGIN_FAIL:
+         case LOGOUT:
         localStorage.removeItem('token')
         return{
           ...state,
           token : null,
-          isAuthenticated : true,
+          isAuthenticated : false,
           loading: false
         };
 
@@ -42,3 +60,4 @@ import {
           return state;
     }
   }
+

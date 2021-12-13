@@ -1,8 +1,14 @@
 import React,{Fragment , useState} from 'react'
 // test sending data to database before using redux 
 
-import {Link} from 'react-router-dom'
- const Login = () => {
+import {Link, Redirect} from 'react-router-dom'
+import {connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import {login} from '../../actions/auth'
+
+
+
+  const Login = ({login , isAuthenticated}) => {
      /**here will be the state for registering new users  */
      const [formData,setFormData] = useState({
          /** default values initial state  */
@@ -31,10 +37,16 @@ edit the name because I use that name  as a key. >>>>>>
         const onChange = e => setFormData({...formData,[e.target.name]: e.target.value})
         const onSubmit =  async e =>  {
             e.preventDefault(); 
-              console.log('success')
-                   };
-
-               
+              login(email,password)
+                   ;
+        }
+       // redirect 
+       if(isAuthenticated === true) {
+         return <Redirect to="/dashboard/"/>
+       }     
+        else if(!isAuthenticated) {
+          <Redirect to="/"/>
+        }
     return (
         <Fragment>
         <h1 className="large text-primary">Login </h1>
@@ -66,7 +78,15 @@ edit the name because I use that name  as a key. >>>>>>
           Don't  have an account? <Link to="register">Sign UP</Link>
         </p>
         </Fragment>
-    )
-}
+    );
+  
+};
 
-export default Login
+Login.propTypes ={ 
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+}
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+export default connect(mapStateToProps,{login})(Login)
