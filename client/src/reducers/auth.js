@@ -1,8 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 // auth reducer
 // register success and register fail added to the action folder to types 
-
-
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
@@ -19,8 +17,7 @@ import {
     isAuthenticated: null,
     loading: true,
     user: null
-  }
-  
+  } 
   export default function(state = initialState, action)  {
     const {type,payload} = action;
 

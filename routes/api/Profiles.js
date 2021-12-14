@@ -46,7 +46,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // destructuer the request
+    // destructure the request
     const {
       website,
       skills,
